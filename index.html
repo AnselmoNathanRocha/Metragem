@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Fita</title>
+    <link rel="shortcut icon" href="img/logoCCLsimbol.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <div class="caixa">
+
+            <div class="borda">
+                <div class="legenda"><strong>Metragem de Fita</strong></div>
+                <br>
+                <div class="inputBox">
+                    <input type="number" pattern="[0-9]+([,\.][0-9]+)?" min="0" step="any" required id="peso" class="estiloInput">
+                    <label for="peso" class="estiloLabel">Peso da Bobina</label>
+                </div>
+                <br><br>
+                <div class="inputBox">
+                    <select id="tamanho" class="estiloInput" name="fita">
+                        <option value="" disabled selected>Escolha o Tamanho</option>
+                        <option value="300">300mm</option>
+                        <option value="400">400mm</option>
+                    </select>
+                    <label for="tamanho" class="estiloLabel">Tamanho da Bobina</label>
+                </div>
+                
+                <div class="tipo">
+                    <p>Tipo de Fita:</p>
+                    <input type="radio" id="polyester" name="tipoFita" value="poly" checked>
+                    <label for="polyester">Polyester</label>
+                    <br>
+                    <input type="radio" id="espumada" name="tipoFita" value="espu" >
+                    <label for="espumada">Espumada</label>
+                </div>
+                
+                <br><br>
+                <div class="inputBox">
+                    <textarea cols="30" rows="2" id="res" class="estiloInput" disabled></textarea>
+                    <label for="res" class="estiloLabel"></label>
+                </div>
+                <br><br>
+                <div class="botoes">
+                    <button onclick="calcular()" class="botoesCaixaUm">Calcular</button>
+                    <button onclick="resetar()" class="botoesCaixaUm">Resetar</button>
+                </div>
+            </div>
+    </div>
+
+    <button class="config" onclick="configurar()">CONFIGURAR</button>
+
+    <!--MODAL-->
+
+    <div class="caixaConfig">
+        <div class="inputBox">
+            <div class="valorBobinaVazia">
+                <p>Peso da bobina vazia:</p>
+                <input class="bobinaVazia" type="number" min="0" max="10" maxlength="4" step="0.01" required>
+            </div>
+            <div class="valorBobinaCheia">
+                <p>Peso da bobina cheia:</p>
+                <input class="bobinaCheia" type="number" min="0" max="10" maxlength="4" step="0.01" required>
+            </div>
+        </div>
+        <div class="botoes">
+            <button class="botoesCaixaDois" onclick="salvar()">Salvar</button>
+            <button class="botoesCaixaDois" onclick="fechar()">Fechar</button>
+        </div>
+
+    <script src="script.js">
+    </script>
+</body>
+</html>
