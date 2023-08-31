@@ -106,7 +106,7 @@ let calcular = document.querySelector('#calcular');
 
       salvarUm.onclick = function() {
                   
-          if (polyMenorVazia.value == "" || polyMenorCheia.value == "") {
+          if (polyMenorVazia.value == "" || polyMenorCheia.value == "" || polyMaiorVazia.value == "" || polyMaiorCheia.value == "") {
               alert("Preencha todos os campos.");
           } else {
               window.localStorage.setItem("polyMenorVazia", polyMenorVazia.value);
@@ -148,11 +148,9 @@ let calcular = document.querySelector('#calcular');
             if (pesoBobina.value < polyMaiorVaziaLocal) {
                 alerta();
             }
-        } else if (select.value == 400 && espumada.checked) {
+        } else {
             if (pesoBobina.value < espuVaziaLocal) {
                 alerta();
             }
-        } else {
-            alert("Essa opção ainda não está disponível.");
         }
       }
