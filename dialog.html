@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Fita</title>
+    <!--<link rel="shortcut icon" href="img/logoCCLsimbol.ico" type="image/x-icon">-->
+    <style>
+      body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: linear-gradient(to right, #3039b7, #636475);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 3s ease-in-out;
+    overflow: hidden;
+    user-select: none;
+}
+
+.caixa {
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    transition: .4s ease-in-out;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 15px;
+    width: 350px;
+}
+
+.borda {
+    border: 3px solid #8D8FA8;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.legenda {
+    padding: 10px;
+    text-align: center;
+    background-color: #8D8FA8;
+    border-radius: 8px;
+    translate: 0 -40px;
+}
+
+.inputBox {
+    position: relative;
+}
+
+input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+}
+
+.estiloInput {
+    background: none;
+    border: none;
+    border-bottom: 1px solid white;
+    outline: none;
+    color: white;
+    font-size: 15px;
+    width: 100%;
+    letter-spacing: 2px;
+}
+
+.estiloLabel {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    pointer-events: none;
+    transition: .5s;
+}
+
+select {
+    cursor: pointer;
+}
+
+option {
+    background-color: #8D8FA8;
+    color: black;
+    font-weight: 600;
+    border-radius: 3px;
+} 
+
+.tipo > input, label {
+    cursor: pointer;
+}
+
+.estiloInput:focus ~ .estiloLabel,
+.estiloInput:valid ~ .estiloLabel {
+    top: -20px;
+    font-size: 14px;
+    color: #8D8FA8;
+}
+
+#res {
+    resize: none;
+    cursor: auto;
+}
+
+.botoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.botoesCaixaUm {
+    background-image: linear-gradient(to right,rgb(0, 92, 197), rgb(90, 20, 220));
+    width: 120px;
+    display: inline;
+    border: none;
+    padding: 15px;
+    margin: 5px;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: .6s ease-in-out;
+}
+
+.botoesCaixaUm:hover {
+    background-image: linear-gradient(to right,rgb(0, 80, 172), rgb(80, 19, 195));
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.736);
+}
+
+.config {
+    width: 150px;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    transition: .2s ease-in-out;
+    opacity: .6;
+    cursor: pointer;
+    background-color: #282828;
+    color: white;
+}
+
+.config:hover  {
+    opacity: .8;
+}
+
+.config:active {
+    opacity: 1;
+    scale: .95;
+}
+
+
+/*MODAL*/
+dialog::backdrop {
+    background-color: rgb(0 0 0 / .9);
+}
+
+dialog {
+    width: 300px;
+    height: 350px;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    background-color: #1d1c1cc5;
+    box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.834);
+    transform: translate(25vw, 25vh);
+    transition: .6s ease-in-out;
+    scale: 1;
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  min-width: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal > span {
+  height: 40px;
+  color: white;
+  padding-bottom: 25px;
+}
+
+.modal > div {
+  background-color: #202020;
+  color: white;
+  opacity: .9;
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  margin-bottom: 1px;
+  transition: .3s ease-in-out;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.modal > div:hover {
+  opacity: .6;
+  background-color: #303030;
+}
+
+.modal > div:active {
+  opacity: .6;
+  background-color: #282828;
+  scale: .95;
+}
+
+.inputBox {
+    padding-left: 10px;
+}
+
+h1, p {
+    color: white;
+}
+
+h3 {
+    font-size: .8rem;
+    color: white;
+}
+
+p {
+    font-size: 1.2rem;
+
+}
+
+.bobinaVazia, .bobinaCheia {
+    font-size: 15px;
+    width: 150px;
+    height: 20px;
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+    transition: .5s ease-in-out;
+}
+
+.valorBobinaVazia > .valorBobinaCheia > input {
+  height: 20px;
+}
+
+.botoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.botoesCaixaDois {
+    width: 80px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    background-image: linear-gradient(to right, darkorchid, dodgerblue);
+    color: white;
+    opacity: 0.7;
+}
+
+.botoesCaixaDois:hover {
+    opacity: 0.9;
+}
+
+.center {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+}
+    </style>
+
+</head>
+<body>
+    <div class="caixa">
+
+            <div class="borda">
+                <div class="legenda"><strong>Metragem de Fita</strong></div>
+                <br>
+                <div class="inputBox">
+                    <input type="number" pattern="[0-9]+([,\.][0-9]+)?" min="0" step="any" required id="peso" class="estiloInput">
+                    <label for="peso" class="estiloLabel">Peso da Bobina</label>
+                </div>
+                <br><br>
+                <div class="inputBox">
+                    <select id="tamanho" class="estiloInput" name="fita">
+                        <option value="" disabled selected>Escolha o Tamanho</option>
+                        <option value="300" id="bobinaMenor">300mm</option>
+                        <option value="400">400mm</option>
+                    </select>
+                    <label for="tamanho" class="estiloLabel">Tamanho da Bobina</label>
+                </div>
+                
+                <div class="tipo">
+                    <p>Tipo de Fita:</p>
+                    <input type="radio" id="polyester" name="tipoFita" value="poly" checked>
+                    <label for="polyester">Polyester</label>
+                    <br>
+                    <input type="radio" id="espumada" name="tipoFita" value="espu" >
+                    <label for="espumada">Espumada</label>
+                </div>
+                
+                <br><br>
+                <div class="inputBox">
+                    <textarea cols="30" rows="2" id="res" class="estiloInput" disabled></textarea>
+                    <label for="res" class="estiloLabel"></label>
+                </div>
+                <br><br>
+                <div class="botoes">
+                    <button class="botoesCaixaUm" id="calcular">Calcular</button>
+                    <button class="botoesCaixaUm" id="limpar">Limpar</button>
+                </div>
+            </div>
+    </div>
+
+    <button class="config">CONFIGURAR</button>
+
+    <!--MODAL-->
+
+    <dialog class="dialogUm">
+      <div class="modalBox">
+        <div class="modal">
+          <span><h2>Tipo de Fita</h2></span>
+          <div class="poly">Polyester</div>
+          <div class="espu">Espumada</div>
+        </div>
+        <button class="botoesCaixaDois" id="fechar">Fechar</button>
+      </div>
+    
+      <dialog class="dialogDois">
+        <div class="caixaConfig">
+            <div class="inputBox">
+                <div class="valorBobinaVazia">
+                    <h3>Polyester 300 vazio:</h3>
+                    <input class="bobinaVazia" id="polyMenorVazia" type="number" min="0" max="10" maxlength="4" step="0.01" required>
+                </div>
+                <div class="valorBobinaCheia">
+                    <h3>Polyester 300 cheio:</h3>
+                    <input class="bobinaCheia" id="polyMenorCheia" type="number" min="0" max="10" maxlength="4" step="0.01" required>
+                </div>
+                <div class="valorBobinaVazia">
+                  <h3>Polyester 400 vazio:</h3>
+                  <input class="bobinaVazia" id="polyMaiorVazia" type="number" min="0" max="10" maxlength="4" step="0.01" required>
+              </div>
+              <div class="valorBobinaCheia">
+                  <h3>Polyester 400 cheio:</h3>
+                  <input class="bobinaCheia" id="polyMaiorCheia" type="number" min="0" max="10" maxlength="4" step="0.01" required>
+              </div>
+            </div>
+            <div class="botoes">
+                <button class="botoesCaixaDois" id="salvarUm">Salvar</button>
+                <button class="botoesCaixaDois" id="voltarUm">Voltar</button>
+            </div>
+        </div>
+      </dialog>
+      <dialog class="dialogTres">
+        <div class="caixaConfig">
+          <div class="inputBox">
+              <div class="valorBobinaVazia">
+                  <h3>Espumada 400 vazio:</h3>
+                  <input class="bobinaVazia" id="espuVazia" type="number" min="0" max="10" maxlength="4" step="0.01" required>
+              </div>
+              <div class="valorBobinaCheia">
+                  <h3>Espumada 400 cheio:</h3>
+                  <input class="bobinaCheia" id="espuCheia" type="number" min="0" max="10" maxlength="4" step="0.01" required>
+              </div>
+          </div>
+          <div class="botoes">
+              <button class="botoesCaixaDois" id="salvarDois">Salvar</button>
+              <button class="botoesCaixaDois" id="voltarDois">Voltar</button>
+          </div>
+      </div>
+      </dialog>
+    </dialog>
+
+    <script>
+      let calcular = document.querySelector('#calcular');
+      let limpar = document.querySelector('#limpar');
+      let configurar = document.querySelector('.config');
+      let salvarUm = document.querySelector('#salvarUm');
+      let salvarDois = document.querySelector('#salvarDois');
+      let voltarUm = document.querySelector('#voltarUm');
+      let voltarDois = document.querySelector('#voltarDois');
+      let fechar = document.querySelector('#fechar');
+      let modalUm = document.querySelector('.dialogUm');
+      let modalDois = document.querySelector('.dialogDois');
+      let modalTres = document.querySelector('.dialogTres');
+      let modalPoly = document.querySelector('.poly');
+      let modalEspu = document.querySelector('.espu');
+      let select = document.getElementById('tamanho');
+      let res = document.querySelector('#res');
+      let polyester = document.getElementById('polyester');
+      let espumada = document.getElementById('espumada');
+      let option = select.options[select.selectedIndex];
+      let pesoBobina = document.getElementById('peso');
+      let polyMenorVaziaLocal = window.localStorage.getItem('polyMenorVazia');
+      let polyMenorCheiaLocal = window.localStorage.getItem('polyMenorCheia');
+      let polyMaiorVaziaLocal = window.localStorage.getItem('polyMaiorVazia');
+      let polyMaiorCheiaLocal = window.localStorage.getItem('polyMaiorCheia');
+      let espuVaziaLocal = window.localStorage.getItem('espuVazia');
+      let espuCheiaLocal = window.localStorage.getItem('espuCheia');
+      let polyMenorVazia = document.querySelector('#polyMenorVazia');
+      let polyMenorCheia = document.querySelector('#polyMenorCheia');
+      let polyMaiorVazia = document.querySelector('#polyMaiorVazia');
+      let polyMaiorCheia = document.querySelector('#polyMaiorCheia');
+      let espuVazia = document.querySelector('#espuVazia');
+      let espuCheia = document.querySelector('#espuCheia');
+      let pesoFita = (polyMenorCheiaLocal - polyMenorVaziaLocal);
+
+      polyMenorVazia.value = polyMenorVaziaLocal;
+      polyMenorCheia.value = polyMaiorCheiaLocal;
+      polyMaiorVazia.value = polyMaiorVaziaLocal;
+      polyMaiorCheia.value = polyMaiorCheiaLocal;
+      espuVazia.value = espuVaziaLocal;
+      espuCheia.value = espuCheiaLocal;
+  
+      //Desabilitar a opção "300mm" caso a opção "Espumada" esteja marcada
+      document.onchange = function() {
+        if (espumada.checked) {
+          document.getElementById('bobinaMenor').disabled = true;
+          select.value = 400;
+        } else {
+          document.getElementById('bobinaMenor').disabled = false;
+          select.value = "";
+        }
+      }
+
+      //Botões
+      calcular.onclick = function() {
+          let pesoBobina = document.getElementById('peso');
+          let valorLinear = (pesoBobina.value - polyMenorVaziaLocal) / ((polyMaiorCheiaLocal - polyMenorVaziaLocal) / 50);
+          let valorQuadrado = (pesoBobina.value - polyMenorVaziaLocal) / ((polyMaiorCheiaLocal - polyMenorVaziaLocal) / 15);
+          let valorLinearDois = (pesoBobina.value - polyMaiorVaziaLocal) / ((polyMaiorCheiaLocal - polyMaiorVaziaLocal) / 50);
+          let valorQuadradoDois = (pesoBobina.value - polyMaiorVaziaLocal) / ((polyMaiorCheiaLocal - polyMaiorVaziaLocal) / 20);
+          let valorLinearTres = (pesoBobina.value - espuVaziaLocal) / ((espuCheiaLocal - espuVaziaLocal) / 50);
+          let valorQuadradoTres = (pesoBobina.value - espuVaziaLocal) / ((espuCheiaLocal - espuVaziaLocal) / 20);
+
+
+          if (pesoBobina.value == "") {
+              alert("Preencha todos os campos.");
+          } else if (pesoBobina.value > 0) {
+              if (select.value == 300 && polyester.checked) {
+                  res.value = valorQuadrado.toFixed(3) + " Metros quadrados\n" + valorLinear.toFixed(3) + " Metros linear";
+              } else if (select.value == 400 && polyester.checked) {
+                  res.value = valorQuadradoDois.toFixed(3) + " Metros quadrados\n" + valorLinearDois.toFixed(3) + " Metros linear";
+              } else if (espumada.checked) {
+                  res.value = valorQuadradoTres.toFixed(3) + " Metros quadrados\n" + valorLinearTres.toFixed(3) + " Metros linear";;
+              } else {
+                  res.value = "";
+                  alert("Escolha um tamanho de fita."); 
+              }   
+          } else {
+              alert("O valor deve ser POSITIVO.");
+          }
+      }
+
+      limpar.onclick = function() {
+          select.value = "";
+          res.value = "";
+          pesoBobina.value = "";
+          optionCheck.length;
+          optionCheck[0].checked = true;
+      }
+
+      configurar.onclick = function() {
+          modalUm.showModal();
+      }
+
+      modalPoly.onclick = function() {
+          modalDois.showModal();
+      }
+
+      modalEspu.onclick = function() {
+          modalTres.showModal();
+      }
+
+      fechar.onclick = function() {
+          modalUm.close();
+      }
+
+      salvarUm.onclick = function() {
+                  
+          if (polyMenorVazia.value == "" || polyMenorCheia.value == "") {
+              alert("Preencha todos os campos.");
+          } else {
+              window.localStorage.setItem("polyMenorVazia", polyMenorVazia.value);
+              window.localStorage.setItem("polyMenorCheia", polyMenorCheia.value);
+              window.localStorage.setItem("polyMaiorVazia", polyMaiorVazia.value);
+              window.localStorage.setItem("polyMaiorCheia", polyMaiorCheia.value);
+          }
+      }
+
+      salvarDois.onclick = function() {
+                  
+          if (espuVazia.value == "" || espuCheia.value == "") {
+              alert("Preencha todos os campos.");
+          } else {
+              window.localStorage.setItem("espuVazia", espuVazia.value);
+              window.localStorage.setItem("espuCheia", espuCheia.value);
+          }
+      }
+
+      voltarUm.onclick = function() {
+          modalDois.close();
+      }
+
+      voltarDois.onclick = function() {
+          modalTres.close();
+      }
+
+      //Número mínimo
+      if (select.value == 300 && polyester.checked) {
+        numeroMinimo(document.querySelector("#peso"));
+
+        function numeroMinimo(input)
+        {
+            input.addEventListener('input', handler);
+            input.addEventListener('blur', handler);
+
+            let running = false;
+
+            function handler() {
+                let poly300Vazia = window.localStorage.getItem('bobinaVazia');
+
+                if (running) return;
+
+                running = true;
+
+                let max = parseFloat(poly300vazia);
+                
+                if (parseFloat(this.value) < max) this.value = max;
+                
+                running = false;
+            };
+        }
+      } else if (select.value == 400 && polyester.checked) {
+        numeroMinimo(document.querySelector("#peso"));
+
+        function numeroMinimo(input)
+        {
+            input.addEventListener('input', handler);
+            input.addEventListener('blur', handler);
+
+            let running = false;
+
+            function handler() {
+                let poly400Vazia = window.localStorage.getItem('poly400vazia');
+
+                if (running) return;
+
+                running = true;
+
+                let max = parseFloat(poly400vazia);
+                
+                if (parseFloat(this.value) < max) this.value = max;
+                
+                running = false;
+            };
+        }
+      }
+
+    </script>
+</body>
+</html>
