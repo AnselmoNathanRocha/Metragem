@@ -32,7 +32,7 @@ let calcular = document.querySelector('#calcular');
       let pesoFita = (polyMenorCheiaLocal - polyMenorVaziaLocal);
 
       polyMenorVazia.value = polyMenorVaziaLocal;
-      polyMenorCheia.value = polyMaiorCheiaLocal;
+      polyMenorCheia.value = polyMenorCheiaLocal;
       polyMaiorVazia.value = polyMaiorVaziaLocal;
       polyMaiorCheia.value = polyMaiorCheiaLocal;
       espuVazia.value = espuVaziaLocal;
@@ -45,7 +45,6 @@ let calcular = document.querySelector('#calcular');
           select.value = 400;
         } else {
           document.getElementById('bobinaMenor').disabled = false;
-          select.value = "";
         }
       }
 
@@ -59,23 +58,26 @@ let calcular = document.querySelector('#calcular');
           let valorLinearTres = (pesoBobina.value - espuVaziaLocal) / ((espuCheiaLocal - espuVaziaLocal) / 50);
           let valorQuadradoTres = (pesoBobina.value - espuVaziaLocal) / ((espuCheiaLocal - espuVaziaLocal) / 20);
 
-
           if (pesoBobina.value == "") {
               alert("Preencha todos os campos.");
           } else if (pesoBobina.value > 0) {
-              if (select.value == 300 && polyester.checked) {
-                  res.value = valorQuadrado.toFixed(3) + " Metros quadrados\n" + valorLinear.toFixed(3) + " Metros linear";
-              } else if (select.value == 400 && polyester.checked) {
-                  res.value = valorQuadradoDois.toFixed(3) + " Metros quadrados\n" + valorLinearDois.toFixed(3) + " Metros linear";
-              } else if (espumada.checked) {
-                  res.value = valorQuadradoTres.toFixed(3) + " Metros quadrados\n" + valorLinearTres.toFixed(3) + " Metros linear";;
-              } else {
-                  res.value = "";
-                  alert("Escolha um tamanho de fita."); 
-              }   
+                if (select.value == 300 && polyester.checked) {
+                    res.value = valorQuadrado.toFixed(3) + " Metros quadrados\n" + valorLinear.toFixed(3) + " Metros linear";
+                } else if (select.value == 400 && polyester.checked) {
+                    res.value = valorQuadradoDois.toFixed(3) + " Metros quadrados\n" + valorLinearDois.toFixed(3) + " Metros linear";
+                } else if (espumada.checked && select.value == 400) {
+                    res.value = valorQuadradoTres.toFixed(3) + " Metros quadrados\n" + valorLinearTres.toFixed(3) + " Metros linear";
+                } else if (espumada.checked && select.value == 300) {
+                    res.value = "Esta informação ainda não está disponível."
+                } else { 
+                    res.value = "";
+                    alert("Escolha um tamanho de fita."); 
+                }   
           } else {
               alert("O valor deve ser POSITIVO.");
           }
+
+          valorMinimo();
       }
 
       limpar.onclick = function() {
@@ -133,52 +135,24 @@ let calcular = document.querySelector('#calcular');
       }
 
       //Número mínimo
-      if (select.value == 300 && polyester.checked) {
-        numeroMinimo(document.querySelector("#peso"));
+      alerta = function() {
+            res.value = "O peso não pode ser menor que o valor da bobina vazia.";
+      }
 
-        function numeroMinimo(input)
-        {
-            input.addEventListener('input', handler);
-            input.addEventListener('blur', handler);
-
-            let running = false;
-
-            function handler() {
-                let poly300Vazia = window.localStorage.getItem('bobinaVazia');
-
-                if (running) return;
-
-                running = true;
-
-                let max = parseFloat(poly300vazia);
-                
-                if (parseFloat(this.value) < max) this.value = max;
-                
-                running = false;
-            };
-        }
-      } else if (select.value == 400 && polyester.checked) {
-        numeroMinimo(document.querySelector("#peso"));
-
-        function numeroMinimo(input)
-        {
-            input.addEventListener('input', handler);
-            input.addEventListener('blur', handler);
-
-            let running = false;
-
-            function handler() {
-                let poly400Vazia = window.localStorage.getItem('poly400vazia');
-
-                if (running) return;
-
-                running = true;
-
-                let max = parseFloat(poly400vazia);
-                
-                if (parseFloat(this.value) < max) this.value = max;
-                
-                running = false;
-            };
+      valorMinimo = function() {
+        if (select.value == 300 && polyester.checked) {
+            if (pesoBobina.value < polyMenorVaziaLocal) {
+                alerta();
+            }
+        } else if (select.value == 400 && polyester.checked) {
+            if (pesoBobina.value < polyMaiorVaziaLocal) {
+                alerta();
+            }
+        } else if (select.value == 400 && espumada.checked) {
+            if (pesoBobina.value < espuVaziaLocal) {
+                alerta();
+            }
+        } else {
+            alert("Essa opção ainda não está disponível.");
         }
       }
