@@ -76,7 +76,7 @@ option {
     color: black;
     font-weight: 600;
     border-radius: 3px;
-}  
+} 
 
 .tipo > input, label {
     cursor: pointer;
@@ -118,6 +118,10 @@ option {
     background-image: linear-gradient(to right,rgb(0, 80, 172), rgb(80, 19, 195));
 }
 
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.736);
+}
+
 .config {
     width: 150px;
     height: 50px;
@@ -125,8 +129,8 @@ option {
     border: none;
     border-radius: 10px;
     position: absolute;
-    bottom: 50px;
-    right: 50px;
+    bottom: 20px;
+    right: 30px;
     transition: .2s ease-in-out;
     opacity: .6;
     cursor: pointer;
@@ -140,25 +144,70 @@ option {
 
 .config:active {
     opacity: 1;
+    scale: .95;
 }
 
-/*MODAL*/
 
-.caixaConfig {
-    width: 220px;
-    height: 250px;
+/*MODAL*/
+dialog::backdrop {
+    background-color: rgb(0 0 0 / .9);
+}
+
+dialog {
+    width: 300px;
+    height: 350px;
     padding: 10px;
+    border: none;
     border-radius: 15px;
     background-color: #1d1c1cc5;
     box-shadow: -3px 3px 10px rgba(0, 0, 0, 0.834);
-    transform: translate(500px, 350px);
+    transform: translate(25vw, 25vh);
     transition: .6s ease-in-out;
-    scale: 0;
+    scale: 1;
 }
 
-.caixaConfig-overlay {
-    background: rgba(#000, .4);
-    z-index: 2;
+.modal {
+  width: 100%;
+  height: 100%;
+  min-width: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal > span {
+  height: 40px;
+  color: white;
+  padding-bottom: 25px;
+}
+
+.modal > div {
+  background-color: #202020;
+  color: white;
+  opacity: .9;
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  margin-bottom: 1px;
+  transition: .3s ease-in-out;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+}
+
+.modal > div:hover {
+  opacity: .6;
+  background-color: #303030;
+}
+
+.modal > div:active {
+  opacity: .6;
+  background-color: #282828;
+  scale: .95;
 }
 
 .inputBox {
@@ -169,19 +218,28 @@ h1, p {
     color: white;
 }
 
+h3 {
+    font-size: .8rem;
+    color: white;
+}
+
 p {
     font-size: 1.2rem;
 
 }
 
 .bobinaVazia, .bobinaCheia {
-    font-size: 18px;
+    font-size: 15px;
     width: 150px;
     height: 20px;
     border-radius: 5px;
     border: none;
     padding: 5px;
     transition: .5s ease-in-out;
+}
+
+.valorBobinaVazia > .valorBobinaCheia > input {
+  height: 20px;
 }
 
 .botoes {
